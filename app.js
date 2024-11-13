@@ -58,6 +58,7 @@ async function processArticleWithOpenAI(articleContent) {
   }
 
   const jsonResponse = await response.json();
+
   if (
     jsonResponse &&
     jsonResponse.choices &&
@@ -73,10 +74,28 @@ async function processArticleWithOpenAI(articleContent) {
   }
 }
 
+function createPreviewHtmlFromTemplate(htmlContent) {
+  const template = fs.readFileSync('szablon.html', 'utf-8');
+
+  const bodyStartIndex = template.indexOf('<body>') + 6;
+  const bodyEndIndex = template.indexOf('</body>');
+  
+  const previewHtml = template.slice(0, bodyStartIndex) + htmlContent + template.slice(bodyEndIndex);
+
+  return previewHtml;
+}
+
 function saveHtmlToFile(htmlContent) {
   fs.writeFile('artykul.html', htmlContent, (err) => {
     if (err) console.error('Błąd podczas zapisywania pliku: ', err);
     else console.log('Plik artykul.html zapisany pomyślnie!');
+  });
+}
+
+function savePreviewHtmlToFile(previewHtml) {
+  fs.writeFile('podglad.html', previewHtml, (err) => {
+    if (err) console.error('Błąd podczas zapisywania pliku: ', err);
+    else console.log('Plik podglad.html zapisany pomyślnie!');
   });
 }
 
@@ -85,6 +104,10 @@ async function main() {
     const articleContent = await readArticleFile();
     const htmlContent = await processArticleWithOpenAI(articleContent);
     saveHtmlToFile(htmlContent);
+
+    const previewHtml = createPreviewHtmlFromTemplate(htmlContent);
+
+    savePreviewHtmlToFile(previewHtml);
   } catch (error) {
     console.error('Błąd aplikacji:', error);
   }

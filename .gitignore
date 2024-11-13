@@ -1,0 +1,34 @@
+# Node modules
+node_modules/
+
+# Pliki środowiskowe
+.env
+
+# Pliki logów
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Wyjścia ze środowiska operacyjnego
+.DS_Store
+Thumbs.db
+
+# Pliki systemowe
+*.swp
+*.swo
+
+# Wyjścia z edytorów
+.vscode/
+.idea/
+
+# Wyjścia kompilatora
+dist/
+build/
+
+# Pliki tymczasowe
+*.tmp
+*.temp
+
+# Wyjścia testów
+coverage/
+
